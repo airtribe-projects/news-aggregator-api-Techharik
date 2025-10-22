@@ -1,8 +1,15 @@
-import mongoose, { model, Schema } from 'mongoose';
+import mongoose, { model, Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+export interface IUser extends Document {
+    name: string;
+    email: string;
+    password: string;
+    preferences: string[];
+    verifyPassword(candidatePassword: string, userPassword: string): Promise<boolean>;
+}
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
     name: {
         type: String,
         require: [true, 'Name is required'],
@@ -13,7 +20,7 @@ const userSchema = new Schema({
     email: {
         type: 'String',
         required: [true, "Email is required"],
-        unique: true,
+        unique: [true, "Email is already registered"],
         lowercase: true,
         trim: true,
         match: [
@@ -40,12 +47,12 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.verifyPassword = async function (
-    candidatePassword, // plain password from login
-    userPassword // hashed password from DB (this.password)
-) {
+    candidatePassword: string, // plain password from login
+    userPassword: string // hashed password from DB (this.password)
+): Promise<boolean> {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const User = model('User', userSchema);
+const User = model<IUser>('User', userSchema);
 
 export default User
