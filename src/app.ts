@@ -9,13 +9,16 @@ import connectDB from './db/dbconfig.js';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//connection db
+//connection db Note:' DB is added here just to make the test cases passes. '
+connectDB()
+
+
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({ 'message': 'Welcome to News API aggregator' })
 })
 
 //routes:
-app.use('/v1/users', userRoutes)
+app.use('/users', userRoutes)
 
 
 //Global Error Handlings:
