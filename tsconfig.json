@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // JS version after compilation
+    "module": "nodenext", // Use ES module syntax
+    "moduleResolution": "nodenext", // Correctly resolve ESM imports
+    "rootDir": "./src", // Source files location
+    "outDir": "./dist", // Compiled JS output
+    "strict": true, // Enable strict type checking
+    "esModuleInterop": true, // Allows import express from 'express'
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true // If importing JSON files
+  },
+  "include": [
+    "src/**/*.ts"
+  ], // Include all TS files
+  "exclude": [
+    "node_modules",
+    "dist"
+  ] // Exclude dependencies and compiled JS
+}
