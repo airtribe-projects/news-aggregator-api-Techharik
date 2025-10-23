@@ -3,9 +3,14 @@ import express from 'express';
 const Router = express.Router();
 
 import { authHandler } from '../middleware/authHandler.js';
-import { getNewsPreferences } from '../controllers/newsConstrollers.js';
+import { getFavourite, getNewsPreferences, getRead, getSearch, postNewsFavourite, postNewsRead } from '../controllers/newsConstrollers.js';
 
 
 Router.get('/', authHandler, getNewsPreferences)
+Router.post('/:id/read', authHandler, postNewsRead)
+Router.post('/:id/favourite', authHandler, postNewsFavourite)
+Router.get('/read', authHandler, getRead)
+Router.get('/favorites', authHandler, getFavourite)
+Router.get('/search/:keyword', authHandler, getSearch)
 
 export default Router;

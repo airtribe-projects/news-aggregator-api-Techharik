@@ -35,13 +35,22 @@ const fetchPostOnPreferences = async (preferences) => {
     console.log(filteredCategory);
     return filteredCategory;
 };
+// InmemoryCache:
+export const articleCahce = new Map();
 const fetchSequentially = async (optimizedPreferences) => {
     const articles = [];
     for (const cat of optimizedPreferences) {
+        if (articleCahce.has(cat)) {
+            articles.push(...articleCahce.get(cat) ?? []);
+            console.log('✅ Cache Hit', cat);
+            continue;
+        }
         const url = `https://gnews.io/api/v4/top-headlines?category=${cat}&lang=en&max=20&apikey=${process.env.GNEWS_API_KEY}`;
         try {
             const result = await axios.get(url);
+            // set cache:
             if (result.data?.articles) {
+                articleCahce.set(cat, result.data.articles);
                 articles.push(...result.data.articles); // combine all articles
             }
         }
@@ -51,21 +60,21 @@ const fetchSequentially = async (optimizedPreferences) => {
     }
     return articles;
 };
-export { fetchPostOnPreferences, fetchPostBasedOnPreference, fetchSequentially };
-// const getPostAsync = () => {
-// //     // Make multiple requests (one per category)
-// //     const responses = await Promise.allSettled(
-// //         filteredCategory.map((cat) => fetchPostBasedOnPreference(cat))
-// //     )
-// //     // console.log(responses, 'res')
-// //     // // Combine all successful results
-// //     const articles = responses
-// //         .filter((r) => r.status === "fulfilled")
-// //         .flatMap((r) => r.value.data.articles);
-// //     console.log(articles, 'articles')
-// //     return {
-// //         categories: filteredCategory,
-// //         totalArticles: articles.length,
-// //         articles,
-// //     };
-// }
+const fetchPostAsyc = async (optimizedPreferences) => {
+    const articles = [];
+    const requests = optimizedPreferences.map(cat => {
+        const url = `https://gnews.io/api/v4/top-headlines?category=${cat}&lang=en&max=20&apikey=${process.env.GNEWS_API_KEY}`;
+        return axios.get(url);
+    });
+    const results = await Promise.allSettled(requests);
+    const allArticles = results
+        .filter((r) => r.status === "fulfilled")
+        .flatMap(r => r.value.data.articles ?? []);
+    console.log(optimizedPreferences);
+    // Log failed requests (optional)
+    results
+        .filter((r) => r.status === "rejected")
+        .forEach(r => console.warn("Request failed:", r.reason.message));
+    return allArticles;
+};
+export { fetchPostOnPreferences, fetchPostBasedOnPreference, fetchSequentially, fetchPostAsyc };
