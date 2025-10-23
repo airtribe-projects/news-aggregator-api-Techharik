@@ -1,1 +1,74 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=21007012&assignment_repo_type=AssignmentRepo)
+<!--  -->
+### NEWS API AGGREGATOR:
+Tech stack :
+---
+Javscript , TypeScript , mongoDB ,Mongoosh , zod (runtime validations);
+
+---
+## Functionality Added :
+
+Register - SignUp with password hash ✅.
+
+login - SignUp with jwt hashed password ✅.
+
+preferences - get and update user preferences. ✅
+
+news - Get the aggregated news from external api ✅
+
+Input validation and Error handling using zod and middlewares✅.
+
+
+## Optionals:
+
+- Added the Global chache for avoid getting api mainy times ✅.
+
+- Added the post and get for mark read news ✅.
+
+- Added the post and get for Favourites news ✅.
+
+- Search using the Keyword ✅ .
+
+Note : The chache was Add in global reflect for all users.
+
+<!-- set up -->
+
+### SETUP:
+
+- STEP -1 : Clone the repo url
+- STEP -2 : Install Dependencies
+
+``` 
+cd news-aggregator-api-Techharik
+```
+```
+npm i 
+```
+ 
+ Dist file is always there  for test dir because test is js folder.
+
+ - STEP -3 : Build the file 
+
+ ```
+ npm build
+ ```
+
+- STEP - 4: env file has to added with
+
+- Check the env.local file for adding env.
+
+- add mongodb url and external api key.
+
+```
+npm run start
+```
+start the file from dist folder .
+
+```
+npm run test
+```
+for Testing.
+```
+Make sure to delete the data entry if you are running test again beacuse the mock data will added to the actuall db and throw error second time because email is unique
+```
+
+![alt text](image.png)
