@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const dbUrl: (string | undefined) = process.env.DB_URI;
-
+// console.log(dbUrl, 'BB')
 const connectDB = async () => {
     if (mongoose.connection.readyState === 1) {
         // 1 = connected

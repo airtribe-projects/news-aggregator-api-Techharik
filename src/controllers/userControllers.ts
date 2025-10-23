@@ -4,6 +4,8 @@ import { loginVaildationTypes, userSchemaTypes } from "../types/user.types.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { success } from "zod";
 import { createToken } from "../utils/jwt.js";
+import { fetchPostOnPreferences, fetchSequentially } from "../utils/NewsFetcher.js";
+import axios from "axios";
 
 
 
@@ -90,7 +92,7 @@ const userLogin = asyncHandler(async (req: Request, res: Response) => {
 
 const userPreferences = asyncHandler(async (req: Request, res: Response) => {
     const user_id = req.userId;
-    console.log(user_id)
+
     if (!user_id) {
         return res.status(401).json({ success: false, message: 'Give user id not found' });
     }
@@ -134,9 +136,12 @@ const updatePreferences = async (req: Request, res: Response) => {
     });
 };
 
+
+
 export {
     userSignUp,
     userLogin,
     userPreferences,
-    updatePreferences
+    updatePreferences,
+
 }

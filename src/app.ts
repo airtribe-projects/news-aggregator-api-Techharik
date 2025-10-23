@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
-import 'dotenv/config';
-const app = express();
+import 'dotenv/config'
 import userRoutes from './Routes/userRoute.js'
+import newsRoutes from './Routes/newsRoute.js'
 import connectDB from './db/dbconfig.js';
 
 
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,8 @@ app.get('/', (req: Request, res: Response) => {
 
 //routes:
 app.use('/users', userRoutes)
+app.use('/news', newsRoutes)
+
 
 
 //Global Error Handlings:
